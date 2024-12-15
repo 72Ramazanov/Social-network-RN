@@ -1,0 +1,81 @@
+// :host {
+//   display: grid;
+//   grid-template-columns: 32px 1fr;
+//   grid-gap: 12px;
+// }
+
+// :host.is-mine {
+//   grid-template-columns: max-content 32px;
+//   justify-self: end;
+
+//   .message-container {
+//     order: -1;
+//   }
+
+//   .message-text {
+//     padding: 8px 16px;
+//     background: var(--azure-color);
+//     color: var(--dark-color);
+//     font-weight: 500;
+//     width: min-content;
+
+//   }
+// }
+
+//   .message-text {
+//     padding: 8px 16px;
+//     background: var(--azure-color);
+//     color: var(--dark-color);
+//     font-weight: 500;
+//     width: min-content;
+
+//   }
+// }
+
+.message-text {
+  padding: 8px 16px;
+  background: var(--message-color);
+  color: var(--light-color);
+  font-weight: 500;
+  width: min-content;
+  border-radius: 30px;
+  width: max-content;
+  
+}
+
+.message-wrapper {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  grid-gap: 12px;
+  margin-bottom: 5px;
+}
+
+.message-wrapper.is-mine {
+  justify-self: end;
+  grid-template-columns: max-content 32px;
+
+  .message-container {
+    order: -1;
+  }
+
+  .user-info {
+    display: grid;
+  
+    justify-content: end;
+  }
+
+
+  .message-text {
+    background: var(--azure-color);
+    color: var(--dark-color);
+    order: 1;
+    width: max-content;
+  }
+
+}
+
+.user-info {
+  display: grid;
+}
+
+
