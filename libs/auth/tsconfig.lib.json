@@ -1,0 +1,27 @@
+// {
+//   "extends": "../../tsconfig.base.json",
+//   "compilerOptions": {
+//     "outDir": "../../dist/out-tsc",
+//     "declaration": true,
+//     "declarationMap": true,
+//     "inlineSources": true,
+//     "types": [],
+//     "composite": true
+//   },
+//   "exclude": ["src/**/*.spec.ts", "jest.config.ts", "src/**/*.test.ts"],
+//   "include": ["src/**/*"]
+// }
+
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "../../dist/out-tsc",
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "types": []
+  },
+  "exclude": ["src/**/*.spec.ts", "jest.config.ts", "src/**/*.test.ts"],
+  "include": ["src/**/*.ts"]
+}

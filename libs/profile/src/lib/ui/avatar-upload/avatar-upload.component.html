@@ -1,0 +1,29 @@
+@if (me(); as me) {
+  @if (me.avatarUrl) {
+    <img class="avatar" [src]="me.avatarUrl | imgUrl" >
+  } @else {
+    <div class="avatar-container">
+      <img [src]="preview()" class="avatar" alt="" />
+    </div>
+  }
+}
+
+<div
+  dnd
+  class="dropzone"
+  (keyup.enter)="fileDrop.click()"
+  (fileDropped)="onFileDroped($event)"
+>
+  <div class="dropzone-content">
+    <svg icon="upload"></svg>
+    <span class="medium-text">Перетащите изображение или Загрузите</span>
+  </div>
+
+  <input
+    tabindex="-1"
+    class="avatar-input"
+    type="file"
+    #fileDrop
+    (change)="fileBrowserHandler($event)"
+  />
+</div>

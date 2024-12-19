@@ -1,0 +1,33 @@
+<!-- @if ( message(); as message ) {
+    
+    <app-avatar-circle class="size32" [avatarUrl]="message.user?.avatarUrl"></app-avatar-circle>
+    <div class="message-container">
+        <strong class="mb8">
+            {{message.user?.firstName}}  {{message.user?.lastName}} {{message.createdAt | date: "HH:mm"}}
+        </strong>
+        <div class="message-text">
+            {{message.text}}
+        </div>
+    </div>
+
+} -->
+
+@for (message of message(); track $index) {
+
+<div [class.is-mine]="message.isMine" class="message-wrapper">
+  <app-avatar-circle
+    class="size32"
+    [avatarUrl]="message.user?.avatarUrl"
+  ></app-avatar-circle>
+
+  <div class="message-container">
+    <strong class="mb8 user-info">
+      {{ message.user?.firstName }} {{ message.user?.lastName }}
+      {{ message.createdAt | date : 'HH:mm' }}
+    </strong>
+    <div class="message-text">
+      {{ message.text }}
+    </div>
+  </div>
+</div>
+}

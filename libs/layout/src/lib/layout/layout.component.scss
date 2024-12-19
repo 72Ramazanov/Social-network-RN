@@ -1,0 +1,39 @@
+// :host {
+//   display: grid;
+//   grid-template-columns: 300px 1fr;
+//   height: 100dvh;
+// }
+
+// .workspace {
+//   padding: 24px;
+// }
+
+.workspace {
+  padding: 24px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  height: 100vh; /* Высота на весь экран */
+}
+
+.sidebar {
+  /* Ширина сайдбара */
+  background-color: #111; /* Цвет фона */
+  color: #fff;
+  position: sticky;
+  top: 0; /* Фиксированный сайдбар */
+  height: 100%; /* Занимает всю высоту */
+}
+
+.content {
+  flex-grow: 1; /* Занимает всё оставшееся место */
+  background-color: #222; /* Цвет фона */
+  color: #fff;
+  overflow-y: scroll;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding: 20px;
+}
