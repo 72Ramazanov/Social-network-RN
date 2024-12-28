@@ -13,6 +13,7 @@ import { firstValueFrom } from 'rxjs';
 import { AvatarCircleComponent, SvgIconComponent } from '@tt/common-ui';
 import { PostService } from '../../data';
 import { GlobalStoreService } from '@tt/shared';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-post-input',
@@ -28,6 +29,7 @@ export class PostInputComponent {
   isCommentInput = input(false);
   postId = input<number>(0);
   profile = inject(GlobalStoreService).me;
+  store = inject(Store)
 
   @Output() created = new EventEmitter();
 

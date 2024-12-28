@@ -22,8 +22,25 @@
   gap: 16px;
   text-align: left;
   color: var(--light-color);
+  position: relative; /* Позволяет позиционировать дочерние элементы */
 }
 
 .chat-user {
   color: var(--light-transparent-color);
 }
+
+.chat-status {
+  display: flex;
+  align-items: center;
+  color:var(--primary-color);
+  gap: 8px;
+  position: absolute; /* Позиционирование */
+  right: 0; /* Прижать к правой стороне */
+  bottom: 0; /* Прижать к нижней стороне */
+}
+
+.chat-icon {
+  width: 15px;
+  height: 13px;
+}
+

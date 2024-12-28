@@ -14,5 +14,12 @@
   } @else {
   <div>{{ chat.message ?? '...' }}</div>
   }
+  
+  
+  <div class="chat-status">
+    <svg icon="chats" class="chat-icon"></svg>
+    <div>{{ chat.unreadMessages }}</div>
+  </div>
 </div>
+
 }
