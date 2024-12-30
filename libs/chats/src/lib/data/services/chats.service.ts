@@ -1,27 +1,90 @@
-import {
-  Message,
-  Chat,
-  LastMessageRes,
-} from '../interfaces/chats.interface';
+import { AuthService } from './../../../../../auth/src/lib/auth/auth.service';
+import { Message, Chat, LastMessageRes } from '../interfaces/chats.interface';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { ProfileService } from '@tt/profile';
+import { ChatWSService } from '../interfaces/chat-ws-service.interface';
+import { ChatWSNativeService } from './chat-ws-native-service';
+import { ChatWSMessage } from '../interfaces/chat-ws-message.interface';
+import { isNewMessage, isUnreadMessage } from '../interfaces/type-guards';
+import { ChatWsRxjsService } from './chat-ws-rxjs.service';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class ChatsService {
   http = inject(HttpClient);
   me = inject(ProfileService).me;
-
-  activeChatMessages = signal<{ date: string; messages: Message[] }[]>([]); // Массив объектов с ключом date и массивом сообщений
+  #authService = inject(AuthService);
 
   baseApiUrl: string = 'https://icherniakov.ru/yt-course/';
   chatsUrl: string = `${this.baseApiUrl}chat/`;
   messageUrl: string = `${this.baseApiUrl}message/`;
+
+  activeChatMessages = signal<{ date: string; messages: Message[] }[]>([]); // Массив объектов с ключом date и массивом сообщений
+
+  wsAdapter: ChatWSService = new ChatWsRxjsService();
+
+  connectWs() {
+    return this.wsAdapter.connect({
+      url: `${this.baseApiUrl}chat/ws`,
+      token: this.#authService.token ?? '',
+      handleMessage: this.handleMessage,
+      // handleMessage: this.handleMessage.bind(this)
+    }) as Observable<ChatWSMessage>
+  }
+
+  handleMessage = (message: ChatWSMessage) => {
+    if(!('action' in message)) return
+
+    if(isUnreadMessage(message)) {
+      message.data.count
+    }
+  
+    if (isNewMessage(message)) {
+      // Получаем текущие сообщения
+      const currentMessages = this.activeChatMessages();
+  
+      // Определяем текущую дату
+      const currentDate = new Date().toISOString().split('T')[0]; // Формат: YYYY-MM-DD
+  
+      // Ищем объект с текущей датой
+      const dateEntry = currentMessages.find(entry => entry.date === currentDate);
+  
+      const newMessage: Message = {
+        id: message.data.id,
+        userFromId: message.data.author,
+        personalChatId: message.data.chat_id,
+        text: message.data.message,
+        createdAt: message.data.created_at,
+        isRead: false,
+        isMine: false,
+      };
+  
+      if (dateEntry) {
+        // Добавляем новое сообщение в массив сообщений текущей даты
+        dateEntry.messages = [...dateEntry.messages, newMessage];
+      } else {
+        // Создаем новый объект для текущей даты
+        currentMessages.push({
+          date: currentDate,
+          messages: [newMessage],
+        });
+      }
+  
+      // Устанавливаем обновленный массив
+      this.activeChatMessages.set(currentMessages);
+    }
+
+    console.log(message)
+  };
+  
+
+  // constructor() {
+  //   console.log(this.activeChatMessages())
+  // }
 
   createChat(userId: number) {
     return this.http.post<Chat>(`${this.chatsUrl}${userId}`, {});

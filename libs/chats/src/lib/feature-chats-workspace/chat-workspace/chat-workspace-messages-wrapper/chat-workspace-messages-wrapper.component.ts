@@ -20,7 +20,7 @@ import {
 import { ChatWorkspaceMessageComponent } from './chat-workspace-message/chat-workspace-message.component';
 import { MessageInputComponent } from '../../../ui';
 import { Chat, ChatsService } from '../../../data';
-import {  ViewportScroller } from '@angular/common';
+import { ViewportScroller } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
@@ -60,9 +60,11 @@ export class ChatWorkspaceMessagesWrapperComponent
   }
 
   async onSendMessage(messageText: string) {
-    await firstValueFrom(
-      this.chatsService.sendMessage(this.chat().id, messageText)
-    );
+    this.chatsService.wsAdapter.sendMessage(messageText, this.chat().id);
+
+    // await firstValueFrom(
+    //   this.chatsService.sendMessage(this.chat().id, messageText)
+    // );
 
     await firstValueFrom(this.chatsService.getChatsById(this.chat().id));
   }
@@ -84,7 +86,6 @@ export class ChatWorkspaceMessagesWrapperComponent
   @ViewChild('messageWrapper') messageWrapper!: ElementRef;
 
   ngAfterViewInit(): void {
-    console.log(this.messageWrapper);
     this.scrollToBottom();
     fromEvent(window, 'resize')
       .pipe(debounceTime(300))

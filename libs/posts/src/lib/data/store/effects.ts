@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap, filter, map } from 'rxjs';
+import { switchMap, map } from 'rxjs';
 import { PostService } from '../services/post.service';
 import { postAction } from './actions';
 
@@ -61,9 +61,6 @@ createCommets$ = createEffect(() => {
       )
     );
   });
-
-
-
 
 }
 

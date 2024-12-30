@@ -1,6 +1,5 @@
 import { SvgIconComponent, PastDatePipe, AvatarCircleComponent  } from '@tt/common-ui';
-import { Component, computed, inject, input, OnInit, Signal, signal } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { Component, computed, inject, input, OnInit, Signal } from '@angular/core';
 import { CommentComponent, PostInputComponent } from '../../ui';
 import { Post, postAction, PostComment, PostService, selectComment } from '../../data';
 import { Store } from '@ngrx/store';

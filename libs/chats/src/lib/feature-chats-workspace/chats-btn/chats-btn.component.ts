@@ -12,12 +12,8 @@ import { SvgIconComponent } from "../../../../../common-ui/src/lib/components/sv
   templateUrl: './chats-btn.component.html',
   styleUrl: './chats-btn.component.scss',
 })
-export class ChatsBtnComponent implements OnInit {
+export class ChatsBtnComponent  {
   chat = input<LastMessageRes>();
   chatMessage = this.chat()?.message;
-
-  ngOnInit() {
-    console.log(this.chat())
-  }
 
 }
