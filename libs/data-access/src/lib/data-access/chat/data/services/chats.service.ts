@@ -1,13 +1,11 @@
-import { AuthService } from './../../../../../auth/src/lib/auth/auth.service';
-import { Message, Chat, LastMessageRes } from '../interfaces/chats.interface';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
+import { AuthService } from '@tt/auth';
 import { map, Observable } from 'rxjs';
-
+import { Chat, LastMessageRes, Message } from '../interfaces/chats.interface';
 import { ProfileService } from '@tt/profile';
-import { ChatWSService } from '../interfaces/chat-ws-service.interface';
-import { ChatWSNativeService } from './chat-ws-native-service';
 import { ChatWSMessage } from '../interfaces/chat-ws-message.interface';
+import { ChatWSService } from '../interfaces/chat-ws-service.interface';
 import { isNewMessage, isUnreadMessage } from '../interfaces/type-guards';
 import { ChatWsRxjsService } from './chat-ws-rxjs.service';
 
@@ -78,8 +76,10 @@ export class ChatsService {
       this.activeChatMessages.set(currentMessages);
     }
 
-    console.log(message)
+
+    console.log(this.activeChatMessages())
   };
+
   
 
   // constructor() {

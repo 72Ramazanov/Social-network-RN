@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
-import { Message } from './../../../../data';
+import { Message } from '@tt/data-access';
 import { AvatarCircleComponent } from '@tt/common-ui';
 
 @Component({

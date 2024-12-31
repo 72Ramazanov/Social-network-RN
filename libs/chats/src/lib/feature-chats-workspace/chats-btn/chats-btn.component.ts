@@ -1,9 +1,8 @@
-import { Component, input, OnInit } from '@angular/core';
 import { SlicePipe } from '@angular/common';
+import { Component, input } from '@angular/core';
 
-import { AvatarCircleComponent } from '@tt/common-ui';
-import { LastMessageRes } from '../../data';
-import { SvgIconComponent } from "../../../../../common-ui/src/lib/components/svg-icon/svg-icon.component";
+import { AvatarCircleComponent, SvgIconComponent } from '@tt/common-ui';
+import { LastMessageRes } from '@tt/data-access';
 
 @Component({
   selector: 'button [chats]',

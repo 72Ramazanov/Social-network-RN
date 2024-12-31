@@ -1,5 +1,5 @@
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { ChatConnectionWSParams, ChatWSService } from './../interfaces/chat-ws-service.interface';
+import { ChatConnectionWSParams, ChatWSService } from '../interfaces/chat-ws-service.interface';
 import { ChatWSMessage } from '../interfaces/chat-ws-message.interface';
 import { finalize, Observable, tap } from 'rxjs';
 
