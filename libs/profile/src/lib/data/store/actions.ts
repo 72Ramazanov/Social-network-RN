@@ -1,5 +1,5 @@
 import { createActionGroup, props } from '@ngrx/store';
-import { Profile } from '@tt/interfaces/profile';
+import { Profile } from '@tt/data-access/profile';
 
 export const profileAction = createActionGroup({
   source: 'profile',
@@ -7,6 +7,5 @@ export const profileAction = createActionGroup({
     'filters events': props<{ filters: Record<string, any> }>(),
     'profiles loaded': props<{ profiles: Profile[] }>(),
     'update filters': props<{ filters: Record<string, any> }>(),
-
   },
 });

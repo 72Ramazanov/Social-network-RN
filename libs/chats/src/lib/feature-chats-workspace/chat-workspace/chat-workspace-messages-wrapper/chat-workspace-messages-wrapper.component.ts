@@ -19,7 +19,7 @@ import {
 } from '@angular/core';
 import { ChatWorkspaceMessageComponent } from './chat-workspace-message/chat-workspace-message.component';
 import { MessageInputComponent } from '../../../ui';
-import { Chat, ChatsService } from '@tt/data-access';
+import { Chat, ChatsService } from '@tt/data-access/chat';
 import { ViewportScroller } from '@angular/common';
 import { Router } from '@angular/router';
 

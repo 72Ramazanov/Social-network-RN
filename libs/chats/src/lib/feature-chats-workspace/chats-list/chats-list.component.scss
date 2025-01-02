@@ -2,6 +2,8 @@
   border-right: var(--light-color);
   display: block;
   border-right: 1px solid var(--light-color);
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
 .chats-filter-input__wrapper {

@@ -1,4 +1,4 @@
-import { ChatsService } from '@tt/data-access';
+import { ChatsService } from '@tt/data-access/chat';
 import { Component, inject } from '@angular/core';
 import { ChatWorkspaceHeaderComponent } from './chat-workspace-header/chat-workspace-header.component';
 import { ChatWorkspaceMessagesWrapperComponent } from './chat-workspace-messages-wrapper/chat-workspace-messages-wrapper.component';

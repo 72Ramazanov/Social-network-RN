@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { AuthService } from '@tt/auth';
+
+import { ProfileService } from '../../profile';
 import { map, Observable } from 'rxjs';
-import { Chat, LastMessageRes, Message } from '../interfaces/chats.interface';
-import { ProfileService } from '@tt/profile';
 import { ChatWSMessage } from '../interfaces/chat-ws-message.interface';
 import { ChatWSService } from '../interfaces/chat-ws-service.interface';
+import { Chat, LastMessageRes, Message } from '../interfaces/chats.interface';
 import { isNewMessage, isUnreadMessage } from '../interfaces/type-guards';
 import { ChatWsRxjsService } from './chat-ws-rxjs.service';
+import { AuthService } from '../../auth';
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +23,8 @@ export class ChatsService {
   messageUrl: string = `${this.baseApiUrl}message/`;
 
   activeChatMessages = signal<{ date: string; messages: Message[] }[]>([]); // Массив объектов с ключом date и массивом сообщений
-
   wsAdapter: ChatWSService = new ChatWsRxjsService();
+  countUnreadMessage = signal(0);
 
   connectWs() {
     return this.wsAdapter.connect({
@@ -31,26 +32,29 @@ export class ChatsService {
       token: this.#authService.token ?? '',
       handleMessage: this.handleMessage,
       // handleMessage: this.handleMessage.bind(this)
-    }) as Observable<ChatWSMessage>
+    }) as Observable<ChatWSMessage>;
   }
 
   handleMessage = (message: ChatWSMessage) => {
-    if(!('action' in message)) return
+    if (!('action' in message)) return;
 
-    if(isUnreadMessage(message)) {
-      message.data.count
+    if (isUnreadMessage(message)) {
+      this.countUnreadMessage.set(message.data.count);
+      console.log(this.countUnreadMessage());
     }
-  
+
     if (isNewMessage(message)) {
       // Получаем текущие сообщения
       const currentMessages = this.activeChatMessages();
-  
+
       // Определяем текущую дату
       const currentDate = new Date().toISOString().split('T')[0]; // Формат: YYYY-MM-DD
-  
+
       // Ищем объект с текущей датой
-      const dateEntry = currentMessages.find(entry => entry.date === currentDate);
-  
+      const dateEntry = currentMessages.find(
+        (entry) => entry.date === currentDate
+      );
+
       const newMessage: Message = {
         id: message.data.id,
         userFromId: message.data.author,
@@ -60,7 +64,7 @@ export class ChatsService {
         isRead: false,
         isMine: false,
       };
-  
+
       if (dateEntry) {
         // Добавляем новое сообщение в массив сообщений текущей даты
         dateEntry.messages = [...dateEntry.messages, newMessage];
@@ -71,20 +75,15 @@ export class ChatsService {
           messages: [newMessage],
         });
       }
-  
       // Устанавливаем обновленный массив
       this.activeChatMessages.set(currentMessages);
     }
-
-
-    console.log(this.activeChatMessages())
   };
 
-  
 
-  // constructor() {
-  //   console.log(this.activeChatMessages())
-  // }
+  get unreadMessageCount() {
+    return this.countUnreadMessage;
+  }
 
   createChat(userId: number) {
     return this.http.post<Chat>(`${this.chatsUrl}${userId}`, {});

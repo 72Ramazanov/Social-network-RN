@@ -1,5 +1,4 @@
-import { Profile } from "@tt/interfaces/profile";
-
+import { Profile } from "../../profile";
 
 export interface Chat {
   id: number;
@@ -25,5 +24,5 @@ export interface LastMessageRes {
   id: number;
   userFrom: Profile;
   message: string | null;
-  unreadMessages: number
+  unreadMessages: number;
 }

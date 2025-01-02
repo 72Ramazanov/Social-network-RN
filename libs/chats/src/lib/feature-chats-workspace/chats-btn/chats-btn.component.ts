@@ -1,8 +1,7 @@
 import { SlicePipe } from '@angular/common';
-import { Component, input } from '@angular/core';
-
+import { Component, inject, input, OnInit } from '@angular/core';
 import { AvatarCircleComponent, SvgIconComponent } from '@tt/common-ui';
-import { LastMessageRes } from '@tt/data-access';
+import { ChatsService, ChatWSMessage, isUnreadMessage, LastMessageRes } from '@tt/data-access/chat';
 
 @Component({
   selector: 'button [chats]',
@@ -11,8 +10,20 @@ import { LastMessageRes } from '@tt/data-access';
   templateUrl: './chats-btn.component.html',
   styleUrl: './chats-btn.component.scss',
 })
-export class ChatsBtnComponent  {
+export class ChatsBtnComponent implements OnInit{
   chat = input<LastMessageRes>();
   chatMessage = this.chat()?.message;
+  chatService = inject(ChatsService);
+  countUnreadMessage: number | undefined = 0;
 
+  handleChatMessage = (message: ChatWSMessage) => {
+    if (isUnreadMessage(message)) {
+      this.countUnreadMessage = message.data.count;
+    }
+  };
+
+  ngOnInit() {
+   this.countUnreadMessage = this.chat()?.unreadMessages
+
+  }
 }

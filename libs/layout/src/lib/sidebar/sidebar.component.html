@@ -10,6 +10,9 @@
       >
         <svg [icon]="menuItem.icon"></svg>
         <span>{{ menuItem.label }}</span>
+        @if(menuItem.link === 'chats') { @if(countUnreadMessage > 0) {
+        <span>{{ countUnreadMessage }}</span>
+        } }
       </a>
     </li>
   </ul>
@@ -22,9 +25,7 @@
 }
 
 <div class="mt20 to-subscribers">
-  <a  class="to-subscribers-link medium-text"
-    >Все подписчики</a
-  >
+  <a class="to-subscribers-link medium-text">Все подписчики</a>
   <svg icon="arrow" class="to-subscribers-icon"></svg>
 </div>
 

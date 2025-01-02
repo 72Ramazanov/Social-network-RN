@@ -13,7 +13,7 @@ import { PostComponent } from '../post/post.component';
 import { PostService } from '../../data';
 import { Store } from '@ngrx/store';
 import { postAction, selectPost } from '../../data/store';
-import { GlobalStoreService } from '@tt/shared';
+import { GlobalStoreService } from '@tt/data-access/shared/data';
 
 @Component({
   selector: 'app-post-feed',

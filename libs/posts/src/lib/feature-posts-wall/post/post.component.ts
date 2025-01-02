@@ -3,7 +3,7 @@ import { Component, computed, inject, input, OnInit, Signal } from '@angular/cor
 import { CommentComponent, PostInputComponent } from '../../ui';
 import { Post, postAction, PostComment, PostService, selectComment } from '../../data';
 import { Store } from '@ngrx/store';
-import { GlobalStoreService } from '@tt/shared';
+import { GlobalStoreService } from '@tt/data-access/shared/data';
 
 @Component({
   selector: 'app-post',

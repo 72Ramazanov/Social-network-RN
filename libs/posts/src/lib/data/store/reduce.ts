@@ -1,7 +1,6 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { Profile } from '@tt/interfaces/profile';
-import { postAction } from './actions';
 import { Post, PostComment } from '../interfaces/post.interface';
+import { postAction } from './actions';
 
 export interface PostState {
   posts: Post[];
@@ -24,17 +23,15 @@ export const PostFeature = createFeature({
     })),
 
     on(postAction.commentsLoaded, (state, { comments }) => {
-      const stateComments = {...state.comments}
+      const stateComments = { ...state.comments };
 
-
-      if(comments.length) {
-        stateComments[comments[0].postId] = comments
-
+      if (comments.length) {
+        stateComments[comments[0].postId] = comments;
       }
 
       return {
         ...state,
-        comments: stateComments
+        comments: stateComments,
       };
     })
   ),
