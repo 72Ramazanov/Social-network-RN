@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImgUrlPipe } from '@tt/common-ui';
@@ -10,9 +10,9 @@ import { ProfileService } from '../../data';
   selector: 'app-profile-card',
   standalone: true,
   imports: [ImgUrlPipe],
-
   templateUrl: './profile-card.component.html',
   styleUrl: './profile-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileCardComponent {
   @Input() profile!: Profile;

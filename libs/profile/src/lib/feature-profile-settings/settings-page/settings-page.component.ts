@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Component, effect, inject, ViewChild } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
@@ -24,6 +25,7 @@ import { AuthService } from "@tt/auth";
   ],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsPageComponent {
   fb = inject(FormBuilder);

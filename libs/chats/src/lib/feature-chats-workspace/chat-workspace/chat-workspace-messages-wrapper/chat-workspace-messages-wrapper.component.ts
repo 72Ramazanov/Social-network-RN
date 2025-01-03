@@ -16,6 +16,7 @@ import {
   OnDestroy,
   AfterViewInit,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ChatWorkspaceMessageComponent } from './chat-workspace-message/chat-workspace-message.component';
 import { MessageInputComponent } from '../../../ui';
@@ -29,6 +30,7 @@ import { Router } from '@angular/router';
   imports: [ChatWorkspaceMessageComponent, MessageInputComponent],
   templateUrl: './chat-workspace-messages-wrapper.component.html',
   styleUrl: './chat-workspace-messages-wrapper.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatWorkspaceMessagesWrapperComponent
   implements OnDestroy, AfterViewInit

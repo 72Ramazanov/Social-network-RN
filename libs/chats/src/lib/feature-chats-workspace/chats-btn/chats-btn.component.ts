@@ -1,5 +1,5 @@
 import { SlicePipe } from '@angular/common';
-import { Component, inject, input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit } from '@angular/core';
 import { AvatarCircleComponent, SvgIconComponent } from '@tt/common-ui';
 import { ChatsService, ChatWSMessage, isUnreadMessage, LastMessageRes } from '@tt/data-access/chat';
 
@@ -9,6 +9,7 @@ import { ChatsService, ChatWSMessage, isUnreadMessage, LastMessageRes } from '@t
   imports: [AvatarCircleComponent, SlicePipe, SvgIconComponent],
   templateUrl: './chats-btn.component.html',
   styleUrl: './chats-btn.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatsBtnComponent implements OnInit{
   chat = input<LastMessageRes>();

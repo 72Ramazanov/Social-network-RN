@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
@@ -21,6 +22,7 @@ import { GlobalStoreService } from '@tt/data-access/shared/data';
   imports: [PostInputComponent, PostComponent],
   templateUrl: './post-feed.component.html',
   styleUrl: './post-feed.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostFeedComponent implements AfterViewInit, OnInit {
   postService = inject(PostService);
@@ -59,9 +61,7 @@ export class PostFeedComponent implements AfterViewInit, OnInit {
     );
   }
 
-  onCreatedComment() {
-    
-  }
+  onCreatedComment() {}
 
   ngAfterViewInit() {
     this.resizeFeed();

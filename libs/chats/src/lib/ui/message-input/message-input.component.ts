@@ -1,5 +1,5 @@
 import {NgIf} from '@angular/common';
-import {Component, EventEmitter, inject,  Output, Renderer2} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, inject,  Output, Renderer2} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {ProfileService} from '@tt/profile';
 import {AvatarCircleComponent, SvgIconComponent} from '@tt/common-ui';
@@ -14,7 +14,8 @@ import {AvatarCircleComponent, SvgIconComponent} from '@tt/common-ui';
     SvgIconComponent
   ],
   templateUrl: './message-input.component.html',
-  styleUrl: './message-input.component.scss'
+  styleUrl: './message-input.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageInputComponent {
   r2 = inject(Renderer2)
