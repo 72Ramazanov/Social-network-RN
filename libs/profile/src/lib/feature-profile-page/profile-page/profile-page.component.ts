@@ -10,7 +10,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap } from 'rxjs';
 
-import { ProfileService } from '../../data';
+import { ProfileService } from '@tt/data-access/profile';
 import { PostFeedComponent } from '@tt/posts';
 import { SvgIconComponent, ImgUrlPipe } from '@tt/common-ui';
 
@@ -35,6 +35,7 @@ export class ProfilePageComponent {
   router = inject(Router);
 
   me$ = toObservable(this.profileService.me);
+
   subcribers$ = this.profileService.getSubscribersShortList(5);
 
   isMyPage = signal(false);

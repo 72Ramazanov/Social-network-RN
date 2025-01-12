@@ -67,14 +67,16 @@ export class SidebarComponent implements OnInit {
     }
   };
 
+
+
   async reconnect() {
     await firstValueFrom(this.authService.refreshAuthToken())
      
     this.connectWs()
   }
+  
 
   connectWs () {
-    this.wsSubscribe.unsubscribe()
     this.wsSubscribe = this.chatService
     .connectWs()
     .pipe(takeUntilDestroyed(this.destroyRef))
@@ -91,4 +93,6 @@ export class SidebarComponent implements OnInit {
 
     this.connectWs()
   }
+
+
 }

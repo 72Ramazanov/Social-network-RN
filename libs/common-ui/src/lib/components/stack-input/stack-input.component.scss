@@ -1,0 +1,48 @@
+.stack-control {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--light-color);
+  background: var(--dark-color);
+  padding: 12px 0px;
+  gap: 12px;
+}
+
+.stack-tag {
+  border: 1px solid var(--light-color);
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 2px 5px;
+  border-radius: 3px;
+
+}
+
+.stack-btn__delete {
+  color: var(--light-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+
+.stack-ghost-input {
+  border: none;
+  background: none;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  font-family: 'JetBrains Mono', sans-serif;
+  color: var(--light-color);
+  outline: none;
+}
+
+:host.disabled {
+  .stack-control{
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
