@@ -6,6 +6,8 @@
 }
 
 .profile-form__wrapper {
+  overflow:scroll;
+  scrollbar-width: none;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -69,4 +71,8 @@
   border: 2px solid var(--primary-color);
   padding: 10px;
   border-radius: 5px;
+}
+
+.pp-info{
+  font-size: 15px;
 }

@@ -1,0 +1,30 @@
+:host {
+    position: relative;
+}
+
+.suggestion-dropdown {
+    position: absolute;
+    background: var( --gray-color);
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-radius: 4px;
+}
+
+.input-address{
+    border: 1px solid var(--light-color);
+    margin-bottom: 20px;
+}
+
+.suggest-btn {
+    width: max-content;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--primary-color);
+        color: black
+    }
+}

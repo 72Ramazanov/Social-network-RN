@@ -4,15 +4,15 @@
   <app-profile-header [profile]="me"></app-profile-header>
 
   <div class="profile-info">
-    <h3 class="h6 mb16">Навыки</h3>
-    <div class="stack-wrapper mb32">
+    <h3 class="h4 mb16">Навыки</h3>
+    <div class="h6 stack-wrapper mb32">
       @for (skill of me.stack; track skill) {
-      <div class="skill-tag">{{ skill }}</div>
+      <div class="pp-info skill-tag">{{ skill }}</div>
       }
     </div>
 
-    <h3 class="h6 mb16">О cебе</h3>
-    <p class=" medium-text">{{ me.description }}</p>
+    <h3 class="h4 mb16">О cебе</h3>
+    <p class="medium-text pp-info">{{ me.description }}</p>
   </div>
 </div>
 
@@ -57,7 +57,12 @@
     <input type="text" class="tt-form-input" formControlName="stack">
 
     <span class="tt-form-label__text">Навыки (стэк)</span>
+    
     <tt-stack-input formControlName="stack"></tt-stack-input>
+
+    <tt-address-input formControlName="stack"></tt-address-input>
+
+   
   </div>
 
   <div class="two-columns-btn">
@@ -65,4 +70,5 @@
 
     <button class="btn" (click)="onSave()">Сохранить</button>
   </div>
+  
 </form>

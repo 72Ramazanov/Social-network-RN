@@ -10,6 +10,7 @@ import { AvatarUploadComponent, ProfileHeaderComponent } from './../../ui';
 import { AuthService } from '@tt/auth';
 import { StackInputComponent, SvgIconComponent } from '@tt/common-ui';
 import { ProfileService } from '@tt/data-access/profile';
+import { AddressInputComponent } from "@tt/common-ui";
 
 @Component({
   selector: 'app-settings-page',
@@ -21,8 +22,8 @@ import { ProfileService } from '@tt/data-access/profile';
     StackInputComponent,
     RouterLink,
     SvgIconComponent,
-   
-  ],
+    AddressInputComponent
+],
   templateUrl: './settings-page.component.html',
   styleUrl: './settings-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,6 +43,7 @@ export class SettingsPageComponent {
     username: [{ value: '', disabled: true }, Validators.required],
     description: [''],
     stack: [''],
+    city: [null]
   });
 
   constructor() {
