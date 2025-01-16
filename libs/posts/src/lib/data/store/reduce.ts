@@ -16,11 +16,14 @@ export const PostFeature = createFeature({
   name: 'postFeature',
   reducer: createReducer(
     initialState,
+    
 
-    on(postAction.postLoaded, (state, { posts }) => ({
-      ...state,
-      posts,
-    })),
+    on(postAction.postLoaded, (state, { posts }) => {
+      return {
+        ...state,
+        posts
+      };
+    }),
 
     on(postAction.commentsLoaded, (state, { comments }) => {
       const stateComments = { ...state.comments };
@@ -33,6 +36,10 @@ export const PostFeature = createFeature({
         ...state,
         comments: stateComments,
       };
-    })
+    }), 
+    on(postAction.deletePost, (state, { postId }) => ({
+      ...state,
+      posts: state.posts.filter((post) => post.id !== postId),
+    })),
   ),
 });

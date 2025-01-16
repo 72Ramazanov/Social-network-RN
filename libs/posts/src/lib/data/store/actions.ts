@@ -1,4 +1,4 @@
-import { createActionGroup, props } from '@ngrx/store';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import {
   CommentCreateDto,
   Post,
@@ -10,8 +10,10 @@ export const postAction = createActionGroup({
   source: 'post',
   events: {
     'post loaded': props<{ posts: Post[] }>(),
-    'fetch posts': props<{ page?: number }>(),
+    'fetch posts': emptyProps(),
     'create post': props<{ payload: PostCreateDto }>(),
+    'delete post': props<{ postId: number }>(),
+    
 
     'comments loaded': props<{ comments: PostComment[] }>(),
     'fetch comment': props<{ postId: number }>(),

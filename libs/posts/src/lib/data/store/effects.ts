@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { switchMap, map } from 'rxjs';
+import { switchMap, map, tap, catchError, of } from 'rxjs';
 import { PostService } from '../services/post.service';
 import { postAction } from './actions';
 
@@ -17,7 +17,9 @@ export class PostEffects {
       switchMap(() =>
         this.postService
           .fetchPosts()
-          .pipe(map((posts) => postAction.postLoaded({ posts })))
+          .pipe(
+            map((posts) => postAction.postLoaded({ posts })),
+          )
       )
     );
   });
@@ -32,7 +34,7 @@ export class PostEffects {
             content: payload.content,
             authorId: payload.authorId
           })
-          .pipe(map((posts) => postAction.fetchPosts({})))
+          .pipe(map((posts) => postAction.fetchPosts()))
       )
     );
   });
@@ -57,7 +59,24 @@ createCommets$ = createEffect(() => {
             authorId: payload.authorId,
             postId: payload.postId
           })
-          .pipe(map(() => postAction.fetchPosts({})))
+          .pipe(map(() => postAction.fetchPosts()))
+      )
+    );
+  });
+
+  deletePost$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(postAction.deletePost),
+      switchMap(({ postId }) =>
+        this.postService
+          .deletePost(postId)
+          .pipe(
+            map(() => postAction.fetchPosts()),
+            catchError((error) => {
+              console.error('Error deleting post:', error);
+              return of(postAction.fetchPosts()); // или обработка другой ошибки
+            })
+          )
       )
     );
   });

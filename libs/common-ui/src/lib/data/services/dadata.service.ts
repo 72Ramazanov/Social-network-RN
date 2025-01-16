@@ -25,13 +25,14 @@ export class DadataService {
       )
       .pipe(
         map((res) => {
-          return Array.from(
-            new Set(
-              res.suggestions.map((suggesion: DadataSuggestion) => {
-                return suggesion.data.city;
-              })
-            )
-          );
+            return res.suggestions
+        //   return Array.from(
+        //     new Set(
+        //       res.suggestions.map((suggesion: DadataSuggestion) => {
+        //         return suggesion.data.city;
+        //       })
+        //     )
+        //   );
         })
       );
   }

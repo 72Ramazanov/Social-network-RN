@@ -35,7 +35,7 @@ import { GlobalStoreService } from '@tt/data-access/shared/data';
   ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostComponent implements OnInit {
   post = input<Post>();
@@ -43,27 +43,30 @@ export class PostComponent implements OnInit {
   store = inject(Store);
   postService = inject(PostService);
 
+
   comments!: Signal<PostComment[]>;
 
   comments2 = computed(() => {
-    if (this.comments()?.length > 0) {
-      return this.comments();
+    const comments = this.comments();
+    if (comments?.length > 0) {
+      return [...comments].sort((a, b) => a.id - b.id);
     }
-
-    return this.post()?.comments;
+    return this.post()?.comments
+      ? [...this.post()!.comments].sort((a, b) => a.id - b.id)
+      : []; 
   });
 
-  ngOnInit() {
+  async ngOnInit() {
     this.comments = this.store.selectSignal(selectComment(this.post()!.id));
-
     // this.comments.set(this.post()!.comments);
+    
   }
 
-  onCreated(commentText: string) {
-    this.store.dispatch(postAction.fetchPosts({}));
+  async onCreated(commentText: string) {
+    this.store.dispatch(postAction.fetchPosts());
     this.store.dispatch(postAction.fetchComment({ postId: this.post()!.id }));
 
-    if (commentText) return;
+    if (!commentText) return;
 
     this.store.dispatch(
       postAction.createComment({
@@ -75,9 +78,13 @@ export class PostComponent implements OnInit {
       })
     );
 
-    // firstValueFrom(
-    //   this.postService.getCommentsByPostId(this.post()!.id)
-    // );
-    // this.comments.set(comments);
   }
+
+  onDeletePost(postId: number) {
+    this.store.dispatch(postAction.deletePost({ postId }));
+  }
+
+
+
+
 }

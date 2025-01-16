@@ -1,28 +1,31 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
   HostListener,
   inject,
   OnInit,
   Renderer2,
+  Signal
 } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
+import { GlobalStoreService } from '@tt/data-access/shared/data';
+import { debounceTime, firstValueFrom, fromEvent } from 'rxjs';
+import { Post, PostService } from '../../data';
+import { postAction, selectPost } from '../../data/store';
 import { PostInputComponent } from '../../ui/post-input/post-input.component';
 import { PostComponent } from '../post/post.component';
-import { PostService } from '../../data';
-import { Store } from '@ngrx/store';
-import { postAction, selectPost } from '../../data/store';
-import { GlobalStoreService } from '@tt/data-access/shared/data';
+import { AsyncPipe, JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-post-feed',
   standalone: true,
-  imports: [PostInputComponent, PostComponent],
+  imports: [PostInputComponent, PostComponent,],
   templateUrl: './post-feed.component.html',
   styleUrl: './post-feed.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostFeedComponent implements AfterViewInit, OnInit {
   postService = inject(PostService);
@@ -30,21 +33,18 @@ export class PostFeedComponent implements AfterViewInit, OnInit {
   profile = inject(GlobalStoreService).me;
   r2 = inject(Renderer2);
   store = inject(Store);
-
-  // feed = this.postService.posts;
+  destroyRef = inject(DestroyRef);
+  
   feed = this.store.selectSignal(selectPost);
 
-  @HostListener('window:resize')
-  onWindowResize() {
-    this.resizeFeed();
-  }
-
-  constructor() {
-    firstValueFrom(this.postService.fetchPosts());
-  }
-
-  ngOnInit() {
-    this.store.dispatch(postAction.fetchPosts({}));
+ ngOnInit() {
+    console.log(this.feed())
+    this.store.select(selectPost).subscribe(a => {
+      console.log(a)
+    })
+    this.store.dispatch(postAction.fetchPosts());
+    // this.store.dispatch(postAction.postLoaded({posts: []}));
+    // firstValueFrom(this.postService.fetchPosts());
   }
 
   onCreatedPost(postText: string) {
@@ -61,10 +61,18 @@ export class PostFeedComponent implements AfterViewInit, OnInit {
     );
   }
 
-  onCreatedComment() {}
+  @HostListener('window:resize')
+  onWindowResize() {
+    this.resizeFeed();
+  }
 
   ngAfterViewInit() {
     this.resizeFeed();
+    fromEvent(window, 'resize')
+      .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.resizeFeed();
+      });
   }
 
   resizeFeed() {

@@ -7,6 +7,7 @@ export interface PostCreateDto {
 }
 
 export interface Post {
+  sort(arg0: (a: any, b: any) => number): any;
   id: number;
   title: string;
   content: string;

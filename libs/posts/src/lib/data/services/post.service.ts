@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { map, switchMap, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import {
   CommentCreateDto,
   Post,
@@ -14,9 +14,9 @@ import {
 export class PostService {
   #http = inject(HttpClient);
 
-  baseApiUrl = 'https://icherniakov.ru/yt-course/';
-
   posts = signal<Post[]>([]);
+
+  baseApiUrl = 'https://icherniakov.ru/yt-course/';
 
   createPost(payload: PostCreateDto) {
     return this.#http.post<Post>(`${this.baseApiUrl}post/`, payload).pipe(
@@ -41,4 +41,16 @@ export class PostService {
       .get<Post>(`${this.baseApiUrl}post/${postId}`)
       .pipe(map((res) => res.comments));
   }
+
+  getPost(postId: number) {
+    return this.#http.get<Post[]>(`${this.baseApiUrl}post${postId}`)
+      .pipe(
+        map(res => res)
+      )
+  }
+  deletePost(postId: number): Observable<void> {
+    return this.#http.delete<void>(`${this.baseApiUrl}post/${postId}`);
+  }
+
+
 }

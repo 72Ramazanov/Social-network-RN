@@ -47,7 +47,6 @@ export class SettingsPageComponent {
   });
 
   constructor() {
-    console.log(this.me());
     effect(() => {
       //@ts-ignore
       this.form.patchValue({

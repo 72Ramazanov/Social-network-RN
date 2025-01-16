@@ -4,20 +4,33 @@
   [avatarUrl]="post.author.avatarUrl"
 ></app-avatar-circle>
 
+
 <main class="post-body">
   <div class="post-header">
     <strong class="post__author">
       {{ post.author.firstName }} {{ post.author.lastName }}
       <span class="post-created-at">{{ post.createdAt | pastDate }}</span>
     </strong>
+
+    <button class="btn btn-delete" (click)="onDeletePost(post.id)">
+      <svg icon="delete" class="delete-icon"></svg>
+    </button>
+  
   </div>
+ 
 
   <p class="medium-text">{{ post.content }}</p>
 
   <div class="post-counters">
     <span class="comment-amount">
       <svg icon="comment" class="svg16 comment-svg"></svg>
-      <span class="comments-length">{{ comments2()?.length ?? 0 }}</span>
+      @if(comments2().length; as comment) {
+        <span class="comments-length">{{ comment }}</span>
+      } @else {
+        <span class="comments-length">0</span>
+      }
+
+      
     </span>
   </div>
 

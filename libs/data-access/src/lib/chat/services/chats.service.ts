@@ -40,7 +40,6 @@ export class ChatsService {
 
     if (isUnreadMessage(message)) {
       this.countUnreadMessage.set(message.data.count);
-      console.log(this.countUnreadMessage());
     }
 
     if (isNewMessage(message)) {

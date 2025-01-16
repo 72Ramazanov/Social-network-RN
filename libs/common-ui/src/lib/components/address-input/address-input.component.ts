@@ -35,6 +35,7 @@ export class AddressInputComponent implements ControlValueAccessor {
   #dadataService = inject(DadataService);
   isDropdownOpened = signal<boolean>(false);
 
+
   suggestions$ = this.innerSearchControl.valueChanges.pipe(
     debounceTime(500),
     switchMap((val) => {
@@ -57,19 +58,18 @@ export class AddressInputComponent implements ControlValueAccessor {
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
-  setDisabledState?(isDisabled: boolean): void {
-    throw new Error('Method not implemented.');
-  }
+
 
   onChange(value: any) {}
 
   onTouched() {}
 
-  onSuggestionPick(city: string) {
+  onSuggestionPick(value: string, street: string | null, house: string | null) {
+    if (street  == null ) street = ''
+    if (house  == null ) house = ''
+
     this.isDropdownOpened.set(false);
-    this.innerSearchControl.patchValue(city, {
-      emitEvent: false,
-    });
-    this.onChange(city);
+    this.innerSearchControl.patchValue(`${value} ${street} ${house}`)
+    this.onChange(value);
   }
 }
