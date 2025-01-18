@@ -1,8 +1,6 @@
-<app-post-input style="border-radius: 5px"></app-post-input>
+<app-post-input style="border-radius: 5px" (created)="onCreatedPost($event)"></app-post-input>
 
 
 @for (post of feed(); track post.id) {
-
-<app-post [post]="post">
-</app-post>
+  <app-post [post]="post"></app-post>
 }

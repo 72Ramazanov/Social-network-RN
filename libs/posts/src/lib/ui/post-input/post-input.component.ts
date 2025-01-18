@@ -33,7 +33,7 @@ export class PostInputComponent {
   profile = inject(GlobalStoreService).me;
   store = inject(Store)
 
-  @Output() created = new EventEmitter();
+  @Output() created = new EventEmitter<string>();
 
   @HostBinding('class.comment')
   get isComment() {
@@ -52,28 +52,7 @@ export class PostInputComponent {
   onCreatePost() {
     if (!this.postText) return;
 
-    if (this.isCommentInput()) {
-      firstValueFrom(
-        this.postService.createComment({
-          text: this.postText,
-          authorId: this.profile()!.id,
-          postId: this.postId(),
-        })
-      ).then(() => {
-        this.postText = '';
-        this.created.emit();
-      });
-      return;
-    }
-
-    firstValueFrom(
-      this.postService.createPost({
-        title: 'Клевый пост',
-        content: this.postText,
-        authorId: this.profile()!.id,
-      })
-    ).then(() => {
-      this.postText = '';
-    });
+    this.created.emit(this.postText);
+    this.postText = ''; // Сброс текста после создания
   }
 }

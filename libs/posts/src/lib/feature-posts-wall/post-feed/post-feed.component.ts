@@ -1,23 +1,22 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
   HostListener,
   inject,
   OnInit,
-  Renderer2,
-  Signal
+  Renderer2
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Store } from '@ngrx/store';
-import { GlobalStoreService } from '@tt/data-access/shared/data';
-import { debounceTime, firstValueFrom, fromEvent } from 'rxjs';
-import { Post, PostService } from '../../data';
-import { postAction, selectPost } from '../../data/store';
-import { PostInputComponent } from '../../ui/post-input/post-input.component';
-import { PostComponent } from '../post/post.component';
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {Store} from '@ngrx/store';
+import {GlobalStoreService} from '@tt/data-access/shared/data';
+import {debounceTime, fromEvent} from 'rxjs';
+import {PostService} from '../../data';
+import {postAction, selectPost} from '../../data/store';
+import {PostInputComponent} from '../../ui/post-input/post-input.component';
+import {PostComponent} from '../post/post.component';
 
 @Component({
   selector: 'app-post-feed',
@@ -25,7 +24,7 @@ import { AsyncPipe, JsonPipe } from '@angular/common';
   imports: [PostInputComponent, PostComponent,],
   templateUrl: './post-feed.component.html',
   styleUrl: './post-feed.component.scss',
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostFeedComponent implements AfterViewInit, OnInit {
   postService = inject(PostService);
@@ -34,7 +33,7 @@ export class PostFeedComponent implements AfterViewInit, OnInit {
   r2 = inject(Renderer2);
   store = inject(Store);
   destroyRef = inject(DestroyRef);
-  
+
   feed = this.store.selectSignal(selectPost);
 
  ngOnInit() {
@@ -43,8 +42,6 @@ export class PostFeedComponent implements AfterViewInit, OnInit {
       console.log(a)
     })
     this.store.dispatch(postAction.fetchPosts());
-    // this.store.dispatch(postAction.postLoaded({posts: []}));
-    // firstValueFrom(this.postService.fetchPosts());
   }
 
   onCreatedPost(postText: string) {

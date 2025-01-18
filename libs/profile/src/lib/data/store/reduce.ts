@@ -50,6 +50,8 @@ export const ProfileFeature = createFeature({
         ...state,
         page,
       };
-    })
+    }),
+
   ),
+
 });

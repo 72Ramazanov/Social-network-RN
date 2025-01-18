@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { ChatsListComponent } from '../chats-list/chats-list.component';
-import { ChatsService } from '@tt/data-access/chat';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
+import {ChatsListComponent} from '../chats-list/chats-list.component';
+import {ChatsService} from '@tt/data-access/chat';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-chats',
@@ -21,5 +21,4 @@ export class ChatsPageComponent {
     ).subscribe()
   }
 
-  
 }

@@ -1,30 +1,58 @@
 :host {
-    position: relative;
+  position: relative;
 }
 
 .suggestion-dropdown {
-    position: absolute;
-    background: var( --gray-color);
-    padding: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    border-radius: 4px;
+  min-width: 80px;
+  position: absolute;
+  background: var(--gray-color);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 4px;
 }
 
-.input-address{
-    border: 1px solid var(--light-color);
-    margin-bottom: 20px;
+.input-address {
+  border: 1px solid var(--light-color);
+  margin-bottom: 20px;
 }
 
 .suggest-btn {
-    width: max-content;
-    background: none;
-    border: none;
-    cursor: pointer;
+  min-width: 80px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
 
-    &:hover {
-        background: var(--primary-color);
-        color: black
-    }
+  &:hover {
+    background: var(--primary-color);
+    color: black;
+  }
+}
+
+.address-group {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 20px;
+}
+
+.label-addres {
+  border: 1px solid var(--light-color);
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.input-address-group {
+  width: 100%;
+  border-radius: 4px;
+  padding: 12px 20px;
+  background: var(--dark-color);
+  border: none;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  font-family: 'JetBrains Mono', sans-serif;
+  color: var(--light-color);
 }

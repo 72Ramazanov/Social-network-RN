@@ -1,28 +1,20 @@
+import {debounceTime, firstValueFrom, fromEvent, Subject, takeUntil, timer,} from 'rxjs';
 import {
-  debounceTime,
-  firstValueFrom,
-  fromEvent,
-  Subject,
-  takeUntil,
-  timer,
-} from 'rxjs';
-import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  HostListener,
   inject,
   input,
-  ElementRef,
-  Renderer2,
-  HostListener,
   OnDestroy,
-  AfterViewInit,
+  Renderer2,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
-import { ChatWorkspaceMessageComponent } from './chat-workspace-message/chat-workspace-message.component';
-import { MessageInputComponent } from '../../../ui';
-import { Chat, ChatsService } from '@tt/data-access/chat';
-import { ViewportScroller } from '@angular/common';
-import { Router } from '@angular/router';
+import {ChatWorkspaceMessageComponent} from './chat-workspace-message/chat-workspace-message.component';
+import {MessageInputComponent} from '../../../ui';
+import {Chat, ChatsService} from '@tt/data-access/chat';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-chat-workspace-messages-wrapper',
@@ -32,29 +24,31 @@ import { Router } from '@angular/router';
   styleUrl: './chat-workspace-messages-wrapper.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatWorkspaceMessagesWrapperComponent
-  implements OnDestroy, AfterViewInit
-{
-  scroller = inject(ViewportScroller);
+export class ChatWorkspaceMessagesWrapperComponent implements OnDestroy, AfterViewInit {
   chatsService = inject(ChatsService);
+  hostElement = inject(ElementRef);
+  r2 = inject(Renderer2);
+
+  // Субъект для управления жизненным циклом подписки на поток сообщений
+  private destroy$ = new Subject<void>();
+  // Обязательное свойство chat, которое возвращает объект типа Chat
   chat = input.required<Chat>();
 
+// Свойство, которое хранит список сообщений активного чата, получаемых через сервис
   messages = this.chatsService.activeChatMessages;
-
-  groupedMessages: any = [];
 
   constructor(private router: Router) {
     this.startMessagePolling();
   }
-  private destroy$ = new Subject<void>();
 
   startMessagePolling() {
-    timer(0, 10000)
-      .pipe(takeUntil(this.destroy$))
+    timer(0, 10000) // Таймер, который срабатывает сразу (0 мс) и повторяется каждые 10 секунд
+      .pipe(takeUntil(this.destroy$)) // Ожидает, пока не будет вызван destroy$
       .subscribe(async () => {
-        await firstValueFrom(this.chatsService.getChatsById(this.chat().id));
+        await firstValueFrom(this.chatsService.getChatsById(this.chat().id)); // Ожидает получение данных о чате
       });
   }
+
 
   ngOnDestroy() {
     this.destroy$.next();
@@ -62,17 +56,12 @@ export class ChatWorkspaceMessagesWrapperComponent
   }
 
   async onSendMessage(messageText: string) {
+    // Отправка сообщения через WebSocket
     this.chatsService.wsAdapter.sendMessage(messageText, this.chat().id);
 
-    // await firstValueFrom(
-    //   this.chatsService.sendMessage(this.chat().id, messageText)
-    // );
-
+    // Ожидание получения обновлённого чата
     await firstValueFrom(this.chatsService.getChatsById(this.chat().id));
   }
-
-  hostElement = inject(ElementRef);
-  r2 = inject(Renderer2);
 
   @HostListener('window:resize')
   onWindowResize() {

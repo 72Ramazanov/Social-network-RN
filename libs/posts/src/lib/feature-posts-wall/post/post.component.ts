@@ -1,27 +1,9 @@
-import {
-  SvgIconComponent,
-  PastDatePipe,
-  AvatarCircleComponent,
-} from '@tt/common-ui';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  OnInit,
-  Signal,
-} from '@angular/core';
-import { CommentComponent, PostInputComponent } from '../../ui';
-import {
-  Post,
-  postAction,
-  PostComment,
-  PostService,
-  selectComment,
-} from '../../data';
-import { Store } from '@ngrx/store';
-import { GlobalStoreService } from '@tt/data-access/shared/data';
+import {AvatarCircleComponent, PastDatePipe, SvgIconComponent,} from '@tt/common-ui';
+import {ChangeDetectionStrategy, Component, computed, inject, input, OnInit, Signal,} from '@angular/core';
+import {CommentComponent, PostInputComponent} from '../../ui';
+import {Post, postAction, PostComment, PostService, selectComment,} from '../../data';
+import {Store} from '@ngrx/store';
+import {GlobalStoreService} from '@tt/data-access/shared/data';
 
 @Component({
   selector: 'app-post',
@@ -35,11 +17,11 @@ import { GlobalStoreService } from '@tt/data-access/shared/data';
   ],
   templateUrl: './post.component.html',
   styleUrl: './post.component.scss',
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostComponent implements OnInit {
-  post = input<Post>();
   profile = inject(GlobalStoreService).me;
+  post = input<Post>();
   store = inject(Store);
   postService = inject(PostService);
 
@@ -53,13 +35,13 @@ export class PostComponent implements OnInit {
     }
     return this.post()?.comments
       ? [...this.post()!.comments].sort((a, b) => a.id - b.id)
-      : []; 
+      : [];
   });
 
   async ngOnInit() {
     this.comments = this.store.selectSignal(selectComment(this.post()!.id));
     // this.comments.set(this.post()!.comments);
-    
+
   }
 
   async onCreated(commentText: string) {

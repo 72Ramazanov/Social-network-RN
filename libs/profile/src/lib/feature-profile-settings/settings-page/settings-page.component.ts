@@ -43,7 +43,7 @@ export class SettingsPageComponent {
     username: [{ value: '', disabled: true }, Validators.required],
     description: [''],
     stack: [''],
-    city: [null]
+    city: ['']
   });
 
   constructor() {
@@ -58,22 +58,25 @@ export class SettingsPageComponent {
   onSave() {
     this.form.markAllAsTouched();
     this.form.updateValueAndValidity();
-
-
+  
     if (this.form.invalid) return;
-
+  
+    console.log(this.form.value); 
+  
     if (this.avatarUploader.avatar) {
       firstValueFrom(
         this.profileService.uploadAvatar(this.avatarUploader.avatar)
       );
     }
-
+  
     firstValueFrom(
       //@ts-ignore
       this.profileService.patchProfile({
         ...this.form.value,
       })
-    );
+    ).catch((error) => {
+      console.error('Ошибка при отправке данных:', error);
+    });
   }
 
   onExit() {
